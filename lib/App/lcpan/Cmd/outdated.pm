@@ -75,18 +75,26 @@ FROM module WHERE name IN (".
         next unless exists $mods_from_db{$mod};
 
         my $fname = $mods_from_db{$mod}{fname};
-
-        # mark all modules from the same file as done
-        for (keys %{ $file_mods{$fname} }) { $done_mods{$_}++ }
+        $log->tracef("Checking module %s (%s)", $mod, $fname);
 
         my $ver = MM->parse_version($mod_paths->{$mod});
         $ver = 0 if !defined($ver) || defined($ver) && $ver eq 'undef';
+        $log->tracef("Version of installed module %s (%s): %s",
+                     $mod, $mod_paths->{$mod}, $ver);
 
+        # mark all modules from the same file as done
+        $log->tracef("Marking all modules from (%s) as done ...", $fname);
+        for (keys %{ $file_mods{$fname} }) {
+            $log->tracef("  %s", $_);
+            $done_mods{$_}++;
+        }
         my $cmp = version->parse($ver) <=>
             version->parse($mods_from_db{$mod}{version});
         next unless $cmp == -1;
 
+        $log->tracef("Adding file %s because %s\'s installed version (%s) is older than db version (%s)", $fname, $mod, $ver, $mods_from_db{$mod}{version});
         push @res, $fname;
+
     }
 
     [200, "OK", \@res];
