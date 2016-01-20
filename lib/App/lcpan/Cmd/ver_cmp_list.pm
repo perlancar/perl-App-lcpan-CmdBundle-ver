@@ -36,6 +36,7 @@ _
                 'newer-than-db',
                 'older-than-db',
                 'same-as-db',
+                'all',
             ]],
             default => 'older-than-db',
             cmdline_aliases => {
@@ -66,6 +67,11 @@ _
                     summary => 'Shortcut for --show same-as-db',
                     code=>sub { $_[0]{show} = 'same-as-db' },
                 },
+                'all' => {
+                    is_flag=>1,
+                    summary => 'Shortcut for --show same-as-db',
+                    code=>sub { $_[0]{show} = 'all' },
+                },
             },
         },
     },
@@ -82,7 +88,7 @@ sub handle_cmd {
     my $i = 0;
     for my $line (split /^/, $args{list}) {
         $i++;
-        unless ($line =~ /^\s*(\w+(?:::\w+)*)(?:\s+([0-9][0-9._]+))?/) {
+        unless ($line =~ /^\s*(\w+(?:::\w+)*)(?:\s+([0-9][0-9._]*))?/) {
             $log->errorf("Syntax error in list line %d: %s, skipped",
                          $i, $line);
             next;
@@ -121,10 +127,13 @@ sub handle_cmd {
                 next unless $cmp == -1;
                 $resmeta->{'table.fields'} = [qw/module input_version db_version/] unless @res;
                 push @res, {module=>$_, db_version=>$mods_from_db{$_}, input_version=>$mods_from_list{$_}};
-            } else {
+            } elsif ($show eq 'same-as-db') {
                 next unless $cmp == 0;
                 $resmeta->{'table.fields'} = [qw/module version/] unless @res;
                 push @res, {module=>$_, version=>$mods_from_db{$_}};
+            } else {
+                $resmeta->{'table.fields'} = [qw/module input_version db_version/] unless @res;
+                push @res, {module=>$_, db_version=>$mods_from_db{$_}, input_version=>$mods_from_list{$_}};
             }
         }
     }
