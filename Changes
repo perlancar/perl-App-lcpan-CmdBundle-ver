@@ -1,5 +1,10 @@
 Revision history for App-lcpan-CmdBundle-ver
 
+0.02    2016-01-21 (PERLANCAR)
+
+        - Add subcommand: outdated.
+
+
 0.01    2016-01-20 (PERLANCAR)
 
         - First version.
