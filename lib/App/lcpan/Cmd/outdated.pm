@@ -19,13 +19,13 @@ $SPEC{handle_cmd} = {
     summary => 'lcpan version of cpan-outdated',
     description => <<'_',
 
-Like `cpan-outdated` utility, this subcommand also checks the versions of
+Like <prog:cpan-outdated> utility, this subcommand also checks the versions of
 installed modules and compares them against the database. If the installed
 version is older, will show the release files. The output can then be fed to
-`cpanm`, for example.
+<prog:cpanm>, for example.
 
 Thanks to the data already in SQLite format, it can be faster than
-`cpan-outdated`.
+<prog:cpan-outdated>.
 
 _
     args => {
