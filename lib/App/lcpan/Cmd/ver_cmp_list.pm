@@ -6,7 +6,7 @@ package App::lcpan::Cmd::ver_cmp_list;
 use 5.010001;
 use strict;
 use warnings;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 
 require App::lcpan;
 
@@ -89,7 +89,7 @@ sub handle_cmd {
     for my $line (split /^/, $args{list}) {
         $i++;
         unless ($line =~ /^\s*(\w+(?:::\w+)*)(?:\s+([0-9][0-9._]*))?/) {
-            $log->errorf("Syntax error in list line %d: %s, skipped",
+            log_error("Syntax error in list line %d: %s, skipped",
                          $i, $line);
             next;
         }

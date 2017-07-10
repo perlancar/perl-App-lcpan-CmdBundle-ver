@@ -6,7 +6,7 @@ package App::lcpan::Cmd::ver_cmp_installed;
 use 5.010001;
 use strict;
 use warnings;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 
 use ExtUtils::MakeMaker;
 use Function::Fallback::CoreOrPP qw(clone);

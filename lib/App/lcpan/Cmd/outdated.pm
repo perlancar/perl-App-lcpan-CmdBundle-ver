@@ -6,7 +6,7 @@ package App::lcpan::Cmd::outdated;
 use 5.010001;
 use strict;
 use warnings;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 
 use ExtUtils::MakeMaker;
 
@@ -75,24 +75,24 @@ FROM module WHERE name IN (".
         next unless exists $mods_from_db{$mod};
 
         my $fname = $mods_from_db{$mod}{fname};
-        $log->tracef("Checking module %s (%s)", $mod, $fname);
+        log_trace("Checking module %s (%s)", $mod, $fname);
 
         my $ver = MM->parse_version($mod_paths->{$mod});
         $ver = 0 if !defined($ver) || defined($ver) && $ver eq 'undef';
-        $log->tracef("Version of installed module %s (%s): %s",
+        log_trace("Version of installed module %s (%s): %s",
                      $mod, $mod_paths->{$mod}, $ver);
 
         # mark all modules from the same file as done
-        $log->tracef("Marking all modules from (%s) as done ...", $fname);
+        log_trace("Marking all modules from (%s) as done ...", $fname);
         for (keys %{ $file_mods{$fname} }) {
-            $log->tracef("  %s", $_);
+            log_trace("  %s", $_);
             $done_mods{$_}++;
         }
         my $cmp = version->parse($ver) <=>
             version->parse($mods_from_db{$mod}{version});
         next unless $cmp == -1;
 
-        $log->tracef("Adding file %s because %s\'s installed version (%s) is older than db version (%s)", $fname, $mod, $ver, $mods_from_db{$mod}{version});
+        log_trace("Adding file %s because %s\'s installed version (%s) is older than db version (%s)", $fname, $mod, $ver, $mods_from_db{$mod}{version});
         push @res, $fname;
 
     }
