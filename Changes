@@ -1,3 +1,9 @@
+0.050   2020-05-06  Released-By: PERLANCAR; Urgency: medium
+
+	- [subcommand ver-cmp-installed] Add options:
+	  --{include,exclude}-{,non}core.
+
+
 0.04    2017-07-10  Released-By: PERLANCAR
 
 	- No functional changes.
