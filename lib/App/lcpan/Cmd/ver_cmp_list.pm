@@ -1,6 +1,8 @@
 package App::lcpan::Cmd::ver_cmp_list;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
